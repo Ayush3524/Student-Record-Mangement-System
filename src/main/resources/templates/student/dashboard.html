@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns:th="http://www.thymeleaf.org"
+        th:replace="student/base::layout(~{::section},~{::title},~{::style},~{::script})"
+>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+            integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMtcK5tjA6rO1l6VjsYvTkmNQ3zTgFv5f5G3y6"
+            crossorigin="anonymous"
+    />
+    <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+        .main-content {
+            margin-left: 20px;
+            padding: 20px;
+        }
+
+        .card-custom {
+            margin: 20px;
+            border: 1px groove #b3c7ff;
+        }
+
+        .name {
+            text-align: center;
+            font-size: 80px;
+            font-family: "Segoe UI Light", serif;
+            font-weight: bold;
+            color: white;
+            letter-spacing: 7px;
+        }
+
+        .icon {
+            color: midnightblue;
+        }
+
+        .four{
+            color: black;
+        }
+
+        .four:hover {
+            background-color: steelblue;
+            color: white;
+            text-shadow: 2px 2px 2px teal;
+        }
+
+        @media (max-width: 768px) {
+            .name {
+                font-size: 40px; /* Reduce font size on smaller screens */
+                letter-spacing: 3px;
+            }
+
+            .card-custom {
+                margin: 10px; /* Reduce margin for smaller screens */
+            }
+
+            .card-body {
+                padding: 10px; /* Reduce padding inside the card */
+                height: auto; /* Allow height to adjust */
+            }
+
+            .icon {
+                font-size: 1.5rem; /* Adjust icon size */
+            }
+
+            .four h5 {
+                font-size: 14px; /* Adjust card heading size */
+            }
+        }
+
+        @media (max-width: 576px) {
+            .name {
+                font-size: 30px; /* Further reduce font size for very small screens */
+                letter-spacing: 2px;
+            }
+
+            .icon {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<section>
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container mt-4">
+            <div style="margin-bottom: 90px">
+                <h1 style="font-size: 7rem; color: black" th:text="'Welcome '+${s.name}+' !'" class="name"></h1>
+            </div>
+            <div class="row mt-5">
+                <div class="col-lg-12" >
+                    <div class="card mb-4 card-custom">
+                        <div class="card-body" style="background-color: cadetblue;border-radius: 10px">
+                            <div class="row text-center">
+                                <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                                    <a
+                                            th:href="@{/student/profile}"
+                                            class="text-decoration-none"
+                                    >
+                                        <div class="card four card-custom shadow-sm">
+                                            <div class="card-body" style="height: 152px">
+                                                <i class="fas fa-user fa-2x mb-3 icon"></i>
+                                                <h5>Personal Information</h5>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                                    <a
+                                            th:href="@{/student/declared-result}"
+                                            class="text-decoration-none"
+                                    >
+                                        <div class="card four card-custom shadow-sm">
+                                            <div class="card-body" style="height: 152px">
+                                                <i class="fas fa-graduation-cap fa-2x mb-3 icon"></i>
+                                                <h5>CAE/TAE Result</h5>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                                    <a
+                                            th:href="@{/student/attendance}"
+                                            class="text-decoration-none"
+                                    >
+                                        <div class="card four card-custom shadow-sm">
+                                            <div class="card-body" style="height: 152px">
+                                                <i
+                                                        class="fas fa-calendar-check fa-2x mb-3 icon"
+                                                ></i>
+                                                <h5>Attendance records</h5>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                                    <a
+                                            th:href="@{/student/sem-result}"
+                                            class="text-decoration-none"
+                                    >
+                                        <div class="card four card-custom shadow-sm">
+                                            <div class="card-body" style="height: 152px">
+                                                <i class="fas fa-award fa-2x mb-3 icon"></i>
+                                                <h5>Academic Performance</h5>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script></script>
+</body>
+</html>

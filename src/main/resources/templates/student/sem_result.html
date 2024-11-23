@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns:th="http://www.thymeleaf.org"
+        th:replace="student/base::layout(~{::section},~{::title},~{::style},~{::script})"
+>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Semester Result</title>
+    <style>
+
+        .main-content{
+            margin-left: 20px;
+        }
+
+        .card-custom{
+            margin: 10px;
+            width: 1200px;
+        }
+
+        .row-custom {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .col-custom {
+            flex: 0 0 46%;
+            margin: 1%;
+            width: 516px;
+        }
+
+        .c-body{
+            background-color: #e2e2e2;
+        }
+
+
+    </style>
+</head>
+<body>
+<section>
+    <div class="main-content">
+        <div class="container mt-4">
+            <div class="card mb-4 card-custom">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3 class="mb-0">Student Academic Results</h3>
+                </div>
+
+                <div class="container" th:unless="${sgpa}">
+                    <p class="text-center text-black my-3" style="font-size: 30px">Not Available</p>
+                </div>
+                <div class="card-body overflow-auto text-black" th:if="${sgpa}" th:object="${sgpa}">
+
+                    <div class="container">
+
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <p style="font-weight: bold">Semester 1 : </p>
+                                <p th:text="${sgpa.getSgpa1()}"></p>
+                            </div>
+                            <div class="col-6">
+                                <p style="font-weight: bold">Semester 2 : </p>
+                                <p th:text="${sgpa.getSgpa2()}"></p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <p style="font-weight: bold">Semester 3 : </p>
+                                <p th:text="${sgpa.getSgpa3()}"></p>
+                            </div>
+                            <div class="col-6">
+                                <p style="font-weight: bold">Semester 4 : </p>
+                                <p th:text="${sgpa.getSgpa4()}"></p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <p style="font-weight: bold">Semester 5 : </p>
+                                <p th:text="${sgpa.getSgpa5()}"></p>
+                            </div>
+                            <div class="col-6">
+                                <p style="font-weight: bold">Semester 6 : </p>
+                                <p th:text="${sgpa.getSgpa6()}"></p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-6">
+                                <p style="font-weight: bold">Semester 7 : </p>
+                                <p th:text="${sgpa.getSgpa7()}"></p>
+                            </div>
+                            <div class="col-6">
+                                <p style="font-weight: bold">Semester 8 : </p>
+                                <p th:text="${sgpa.getSgpa8()}"></p>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script></script>
+</body>
+</html>

@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns:th="http://www.thymeleaf.org"
+        th:fragment="layout(section,title,script,style)"
+>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title th:replace="${title}"></title>
+    <style th:replace="${style}"></style>
+    <style>
+        /* Ensure that the body and html grow with the content */
+        html, body {
+            height: auto;
+            min-height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #update-sgpa p {
+            color: black;
+        }
+
+        #updateAttendence p, #updateAttendence h5 {
+            color: black;
+        }
+
+        .sidebar {
+            margin-top: 5px;
+            background-color: #13111c;
+        }
+
+        .sidebar a {
+            padding: 15px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: aliceblue;
+            display: block;
+            letter-spacing: 1px;
+            transition: background-color 0.3s;
+            font-family: "Century Schoolbook", serif;
+        }
+
+        .sidebar a:hover {
+            color: darkturquoise;
+            text-shadow: 3px 3px 4px darkblue;
+        }
+
+
+        .card2 div h5 {
+            font-size: 30px;
+            color: white;
+        }
+
+        .card2 div p {
+            font-size: 50px;
+            color: white;
+        }
+
+        .branch {
+            color: skyblue;
+            letter-spacing: 1px;
+            font-family: "Times New Roman", serif;
+            font-style: oblique;
+            font-weight: bolder;
+            text-shadow: 1px 1px 1px gray;
+        }
+
+
+    </style>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+            crossorigin="anonymous"
+    />
+    <link
+            rel="stylesheet"
+            href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    />
+    <link
+            rel="stylesheet"
+            href="https://unpkg.com/bs-brain@2.0.4/components/logins/login-4/assets/css/login-4.css"
+    />
+    <!-- Font Awesome -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.min.css"
+            rel="stylesheet"
+    />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+            integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+    />
+    <link rel="icon" type="image/ico" th:href="@{/img/favicon.ico}">
+</head>
+
+<body style="background-color: skyblue">
+<!-- navbar start -->
+<nav class="navbar navbar-expand-lg" style="background-color: lightblue;">
+    <div class="container-fluid">
+        <a th:if="${loggedInUser}" class="navbar-brand" th:href="@{/admin/dashboard}">
+            <img th:src="@{/img/sb.jpg}" style="width: 30px" alt=""/>
+            <div class="d-none d-lg-inline " style="color: black">S.B. Jain Institute of Technology and Management
+                Research
+            </div>
+            <span class="d-inline d-lg-none " style="color: black">S.B. Jain Institute</span>
+        </a>
+        <a th:unless="${loggedInUser}" class="navbar-brand" th:href="@{/}" style="text-decoration: none">
+            <img th:src="@{/img/sb.jpg}" style="width: 30px" alt=""/>
+            <div class="d-none d-lg-inline" style="color: black">S.B. Jain Institute of Technology and Management
+                Research
+            </div>
+            <div class="d-inline d-lg-none text-black">S.B. Jain Institute</div>
+        </a>
+        <button class="navbar-toggler" style="background-color: white" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li th:unless="${loggedInUser}" class="nav-item">
+                    <a th:href="@{/}" class="nav-link text-white">
+                        <button class="btn" style="background-color: white;color: black">Home</button>
+                    </a>
+                </li>
+                <li th:unless="${loggedInUser}" class="nav-item">
+                    <a th:href="@{/admin/login}" class="text-white nav-link">
+                        <button id="home-btn" class=" btn" th:data-url="${currentUrl}"
+                                style="background-color: white;color: black">Admin login
+                        </button>
+                    </a>
+                </li>
+                <li th:unless="${loggedInUser}" class="nav-item">
+                    <a th:href="@{/student/login}" class="text-white nav-link">
+                        <button class="btn" style="background-color: white;color: black">Student Login</button>
+                    </a>
+                </li>
+                <li th:if="${loggedInUser}" class="nav-item">
+                    <a data-mdb-ripple-init data-mdb-modal-init
+                       data-mdb-target="#result-link" class="text-white nav-link">
+                        <button class="btn" style="background-color: white;color: black">Add Result link</button>
+                    </a>
+                </li>
+                <li th:if="${loggedInUser}" class="nav-item">
+                    <a th:href="@{/admin/logout}" class="text-white nav-link">
+                        <button class="btn btn-danger">Logout</button>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- navbar end -->
+
+<div class="d-flex">
+    <!-- Sidebar -->
+    <nav id="sidebar" class="sidebar border-end" style="width: 300px;" th:if="${loggedInUser}">
+        <button class="btn btn-secondary d-lg-none mb-3" type="button" data-bs-toggle="collapse"
+                data-bs-target="#sidebarContent" aria-expanded="false" aria-controls="sidebarContent">
+            <span class="navbar-toggler-icon"><i class="fa-solid fa-bars"></i></span>
+        </button>
+        <div class="collapse d-lg-block" id="sidebarContent">
+            <div class="text-center my-1">
+                <img th:src="@{/img/sb.jpg}" alt="Profile Picture" style="width: 100px; border-radius: 100px"/>
+            </div>
+            <h4 class="mb-4 mt-2 text-center branch">Electronics and Telecommunication</h4>
+            <ul id="url" class="nav flex-column" th:data-url="${currentUrl}">
+                <li class="nav-item mt-1"><a class="nav-link" id="home" th:href="@{/admin/dashboard}"><i
+                        class="fa-solid fa-house"></i>&nbsp; Home</a></li>
+                <li class="nav-item my-1"><a class="nav-link" id="all-students" th:href="@{/admin/all-students}"><i
+                        class="fa-solid fa-user"></i>&nbsp; All Students</a></li>
+                <li class="nav-item my-1"><a class="nav-link" id="add-student" th:href="@{/admin/add-student}"><i
+                        class="fa-solid fa-plus"></i>&nbsp; Add Student</a></li>
+                <li class="nav-item my-1"><a class="nav-link" id="add-attendance" th:href="@{/admin/add-attendence}"><i
+                        class="fa-solid fa-address-card"></i>&nbsp; Add Attendance</a></li>
+                <li class="nav-item my-1"><a class="nav-link" id="add-sgpa" th:href="@{/admin/add-sgpa}"><i
+                        class="fa-solid fa-square-poll-horizontal"></i>&nbsp; Add SGPA</a></li>
+                <li class="nav-item my-1"><a class="nav-link" id="courses" th:href="@{/admin/cources}"><i
+                        class="fa-solid fa-book-open-reader"></i>&nbsp; Courses</a></li>
+                <li class="nav-item my-1"><a class="nav-link" id="backlog-students"
+                                             th:href="@{/admin/backlog-students}"><i
+                        class="fa-solid fa-clover"></i>&nbsp; Backlog Students</a></li>
+                <li class="nav-item my-1"><a class="nav-link" id="upload-result" th:href="@{/admin/upload-result}"><i
+                        class="fa-solid fa-chart-simple"></i>&nbsp; CAE/TAE Result</a></li>
+                <li class="nav-item my-1"><a class="nav-link" id="logout" th:href="@{/admin/logout}"><i
+                        class="fa-solid fa-right-to-bracket"></i>&nbsp; Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Sidebar end -->
+
+
+    <!--    result link model-->
+
+    <div
+            class="modal fade"
+            id="result-link"
+            data-mdb-backdrop="static"
+            data-mdb-keyboard="false"
+            tabindex="-1"
+            aria-labelledby="staticBackdropLabel"
+            aria-hidden="true"
+
+    >
+        <div class="modal-dialog modal-dialog-scrollable text-black">
+            <div class="modal-content" style="background-color: #e2e2e2">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Result link</h4>
+                    <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form method="post" th:action="@{/admin/add-link}" id="edit-from">
+
+                        <textarea name="link" rows="3" class="form-control"></textarea>
+
+                        <div class="text-center">
+
+                            <button type="submit" class="btn mt-3 btn-success">
+                                Add
+                            </button>
+                            <div id="loadingSpinner2" style="display: none;">
+                                <!-- HTML for the spinner -->
+                                <div class="spinner-border text-success mt-1" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!--    result link model end-->
+
+
+    <!-- update student Modal -->
+    <div
+            class="modal fade"
+            id="staticBackdrop"
+            data-mdb-backdrop="static"
+            data-mdb-keyboard="false"
+            tabindex="-1"
+            aria-labelledby="staticBackdropLabel"
+            aria-hidden="true"
+    >
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content text-black">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="staticBackdropLabel">Edit Student</h4>
+                    <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form method="post" th:action="@{/admin/student/update}" id="editStudentForm">
+
+                        <!-- Row 1 - rollno -->
+
+                        <div class="form-group row text-center my-1">
+                            <div class="col">
+                                <p style="font-weight: bold">Student ID :</p>
+                            </div>
+                            <div class="col">
+                                <input class="form-control" type="text" id="rollNo" name="rollNo" readonly>
+
+                            </div>
+                        </div>
+
+                        <!-- Row 2 - name -->
+
+                        <div class="form-group row text-center my-1">
+                            <div class="col">
+                                <p>Name :</p>
+                            </div>
+                            <div class="col">
+                                <input class="form-control" type="text" id="name" name="name" readonly>
+                                <p></p>
+                            </div>
+                        </div>
+
+                        <div class="form-group row text-center my-1">
+                            <div class="col">
+                                <p>Year :</p>
+                            </div>
+                            <div class="col">
+                                <select
+                                        name="year"
+                                        class="form-control"
+                                        id="year"
+                                        required
+                                >
+                                    <option value="">Select Year</option>
+                                    <option value="1st">1st</option>
+                                    <option value="2nd">2nd</option>
+                                    <option value="3rd">3rd</option>
+                                    <option value="4ht">4th</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row text-center my-1">
+                            <div class="col">
+                                <p>Backlog :</p>
+                            </div>
+                            <div class="col">
+                                <select
+                                        name="backlog"
+                                        class="form-control"
+                                        id="backlog"
+                                        required
+                                >
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Row 3 - Backlog Subjects -->
+
+                        <div class="form-group row text-center my-1 " id="backlogsub">
+                            <div class="col">
+                                <p>Backlog Subjects :</p>
+                            </div>
+                            <div class="col">
+
+                                <textarea class="form-control" rows="2" id="backSub" name="backSub"></textarea>
+
+                            </div>
+                        </div>
+
+
+                        <!-- Row 4 - current backlog -->
+
+                        <div class="form-group row text-center mt-3 " id="backlogsub2">
+                            <div class="col">
+                                <p>Current Backlog :</p>
+                            </div>
+                            <div class="col">
+
+                                <textarea class="form-control" name="currentBacklog" id="currentBacklog"
+                                          rows="2"></textarea>
+
+                            </div>
+                        </div>
+
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-secondary" data-mdb-ripple-init
+                                    data-mdb-dismiss="modal">Close
+                            </button>
+                            <button type="submit" class="btn btn-primary" data-mdb-ripple-init>Save Changes</button>
+                            <div id="loadingSpinner" style="display: none;">
+                                <!-- HTML for the spinner -->
+                                <div class="spinner-border text-primary mt-1" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--    update student model end-->
+
+
+    <!--    update attendence model-->
+
+    <div
+            class="modal fade"
+            id="updateAttendence"
+            data-mdb-backdrop="static"
+            data-mdb-keyboard="false"
+            tabindex="-1"
+            aria-labelledby="staticBackdropLabel"
+            aria-hidden="true"
+    >
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-black">Update Attendence</h4>
+                    <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" th:action="@{/admin/student/update/attendence}" id="editAttendenceForm">
+
+
+                        <div class="form-group row">
+                            <div class="col text-end">
+                                <p style="font-weight: bold">Student ID :</p>
+                            </div>
+                            <div class="col text-start">
+                                <input class="" type="text" id="sRollNo" name="sRollNo" readonly>
+
+                            </div>
+                        </div>
+
+                        <!-- Row 1 - Attendence semester 1 -->
+
+                        <div class="form-group row mt-3">
+                            <h5 class="">Attendence for Semester 1 :</h5>
+                            <div class="col m-2">
+                                <p>Attended Lectures and labs: </p>
+                                <input type="number" name="pday1" id="pdays1">
+                            </div>
+
+                            <div class="col m-2">
+                                <p>Total Lectures and labs: </p>
+                                <input type="number" name="tday1" id="tdays1">
+                            </div>
+
+                            <div class="col m-2">
+                                <p>Average % : </p>
+                                <input type="number" name="a1" id="avg1" readonly>
+                            </div>
+
+                        </div>
+
+                        <!-- Row 2 - Attendence semester 2 -->
+
+                        <div class="form-group row mt-3">
+                            <h5 class="">Attendence for Semester 2 :</h5>
+                            <div class="col m-2">
+                                <p>Attended Lectures and labs: </p>
+                                <input type="number" name="pday2" id="pdays2">
+                            </div>
+
+                            <div class="col m-2">
+                                <p>Total Lectures and labs: </p>
+                                <input type="number" name="tday2" id="tdays2">
+                            </div>
+
+                            <div class="col m-2">
+                                <p>Average % : </p>
+                                <input type="number" name="a2" id="avg2" readonly>
+                            </div>
+
+                        </div>
+
+                        <!-- Row 3 - Attendence semester 3 -->
+
+                        <div class="form-group row mt-3">
+                            <h5 class="">Attendence for Semester 3 :</h5>
+                            <div class="col m-2">
+                                <p>Attended Lectures and labs: </p>
+                                <input type="number" name="pday3" id="pdays3">
+                            </div>
+
+                            <div class="col m-2">
+                                <p>Total Lectures and labs: </p>
+                                <input type="number" name="tday3" id="tdays3">
+                            </div>
+
+                            <div class="col m-2">
+                                <p>Average % : </p>
+                                <input type="number" name="a3" id="avg3" readonly>
+                            </div>
+
+                        </div>
+
+                        <!-- Row 4 - Attendence semester 4 -->
+
+                        <div class="form-group row mt-3">
+                            <h5 class="">Attendence for Semester 4 :</h5>
+                            <div class="col m-2">
+                                <p>Attended Lectures and labs: </p>
+                                <input type="number" name="pday4" id="pdays4">
+                            </div>
+
+                            <div class="col m-2">
+                                <p>Total Lectures and labs: </p>
+                                <input type="number" name="tday4" id="tdays4">
+                            </div>
+
+                            <div class="col m-2">
+                                <p>Average % : </p>
+                                <input type="number" name="a4" id="avg4" readonly>
+                            </div>
+
+                        </div>
+
+                        <!-- Row 5 - Attendence semester 5 -->
+
+                        <div class="form-group row mt-3">
+                            <h5 class="">Attendence for Semester 5 :</h5>
+                            <div class="col m-2">
+                                <p>Attended Lectures and labs: </p>
+                                <input type="number" name="pday5" id="pdays5">
+                            </div>
+
+                            <div class="col m-2">
+                                <p>Total Lectures and labs: </p>
+                                <input type="number" name="tday5" id="tdays5">
+                            </div>
+
+                            <div class="col m-2">
+                                <p>Average % : </p>
+                                <input type="number" name="a5" id="avg5" readonly>
+                            </div>
+
+                        </div>
+
+                        <!-- Row 6 - Attendence semester 6 -->
+
+                        <div class="form-group row mt-3">
+                            <h5 class="">Attendence for Semester 6 :</h5>
+                            <div class="col m-2">
+                                <p>Attended Lectures and labs: </p>
+                                <input type="number" name="pday6" id="pdays6">
+                            </div>
+
+                            <div class="col m-2">
+                                <p>Total Lectures and labs: </p>
+                                <input type="number" name="tday6" id="tdays6">
+                            </div>
+
+                            <div class="col m-2">
+                                <p>Average % : </p>
+                                <input type="number" name="a6" id="avg6" readonly>
+                            </div>
+
+                        </div>
+                        <!-- Row 7 - Attendence semester 7 -->
+
+                        <div class="form-group row mt-3">
+                            <h5 class="">Attendence for Semester 7 :</h5>
+                            <div class="col m-2">
+                                <p>Attended Lectures and labs: </p>
+                                <input type="number" name="pday7" id="pdays7">
+                            </div>
+
+                            <div class="col m-2">
+                                <p>Total Lectures and labs: </p>
+                                <input type="number" name="tday7" id="tdays7">
+                            </div>
+
+                            <div class="col m-2">
+                                <p>Average % : </p>
+                                <input type="number" name="a7" id="avg7" readonly>
+                            </div>
+
+                        </div>
+
+                        <!-- Row 8 - Attendence semester 8 -->
+
+                        <div class="form-group row mt-3">
+                            <h5 class="">Attendence for Semester 8 :</h5>
+                            <div class="col m-2">
+                                <p>Attended Lectures and labs: </p>
+                                <input type="number" name="pday8" id="pdays8">
+                            </div>
+
+                            <div class="col m-2">
+                                <p>Total Lectures and labs: </p>
+                                <input type="number" name="tday8" id="tdays8">
+                            </div>
+
+                            <div class="col m-2">
+                                <p>Average % : </p>
+                                <input type="number" name="a8" id="avg8" readonly>
+                            </div>
+
+                        </div>
+
+
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-secondary" data-mdb-ripple-init
+                                    data-mdb-dismiss="modal">Close
+                            </button>
+                            <button type="submit" class="btn btn-primary" data-mdb-ripple-init>Save Changes</button>
+                            <div id="loadingSpinner1" style="display: none;">
+                                <!-- HTML for the spinner -->
+                                <div class="spinner-border text-primary mt-1" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--    update attendence model end-->
+
+
+    <!--    update sgpa model-->
+
+    <div
+            class="modal fade"
+            id="update-sgpa"
+            data-mdb-backdrop="static"
+            data-mdb-keyboard="false"
+            tabindex="-1"
+            aria-labelledby="staticBackdropLabel"
+            aria-hidden="true"
+    >
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="">Update SGPA</h4>
+                    <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" th:action="@{/admin/student/update/sgpa}" id="editSgpaForm">
+
+
+                        <div class="form-group row text-center">
+                            <div class="col">
+                                <p style="font-weight: bold">Student ID :</p>
+                            </div>
+                            <div class="col">
+                                <input class="form-control" type="text" id="studentRollNo" name="studentRollNo"
+                                       readonly>
+
+                            </div>
+                        </div>
+
+                        <!-- Row 1 - sgpa semester 1 -->
+
+                        <div class="form-group row mt-3">
+                            <div class="col m-2">
+                                <p class="">Sgpa for Semester 1 :</p>
+                                <input type="number" name="sgpa1"
+                                       value="0"
+                                       max="10"
+                                       step="0.01"
+                                       oninput="calculateAverageSGPA()"
+                                       class="form-control"
+                                       id="sgpa1">
+                            </div>
+
+                            <div class="col m-2">
+                                <p class="">Sgpa for Semester 2 :</p>
+                                <input type="number" name="sgpa2"
+                                       max="10"
+                                       value="0"
+                                       step="0.01"
+                                       class="form-control"
+                                       oninput="calculateAverageSGPA()" id="sgpa2">
+                            </div>
+
+                        </div>
+
+                        <!-- Row 2 - sgpa semester 2 -->
+
+                        <div class="form-group row mt-3">
+                            <div class="col m-2">
+                                <p class="">Sgpa for Semester 3 :</p>
+                                <input type="number" name="sgpa3"
+                                       value="0"
+                                       max="10"
+                                       step="0.01"
+                                       class="form-control"
+                                       oninput="calculateAverageSGPA()" id="sgpa3">
+                            </div>
+
+                            <div class="col m-2">
+                                <p class="">Sgpa for Semester 4 :</p>
+                                <input type="number" name="sgpa4"
+                                       value="0"
+                                       max="10"
+                                       step="0.01"
+                                       class="form-control"
+                                       oninput="calculateAverageSGPA()" id="sgpa4">
+                            </div>
+
+
+                        </div>
+
+                        <!-- Row 3 - Attendence semester 3 -->
+
+                        <div class="form-group row mt-3">
+                            <div class="col m-2">
+                                <p class="">Sgpa for Semester 5 :</p>
+                                <input type="number" name="sgpa5"
+                                       value="0"
+                                       max="10"
+                                       step="0.01"
+                                       class="form-control"
+                                       oninput="calculateAverageSGPA()" id="sgpa5">
+                            </div>
+
+                            <div class="col m-2">
+                                <p class="">Sgpa for Semester 6 :</p>
+                                <input type="number" name="sgpa6"
+                                       value="0"
+                                       max="10"
+                                       step="0.01"
+                                       class="form-control"
+                                       oninput="calculateAverageSGPA()" id="sgpa6">
+                            </div>
+
+                        </div>
+
+                        <!-- Row 4 - Attendence semester 4 -->
+
+                        <div class="form-group row mt-3">
+                            <div class="col m-2">
+                                <p class="">Sgpa for Semester 7 :</p>
+                                <input type="number" name="sgpa7"
+                                       value="0"
+                                       max="10"
+                                       step="0.01"
+                                       class="form-control"
+                                       oninput="calculateAverageSGPA()" id="sgpa7">
+                            </div>
+
+                            <div class="col m-2">
+                                <p class="">Sgpa for Semester 8 :</p>
+                                <input type="number" name="sgpa8"
+                                       value="0"
+                                       max="10"
+                                       step="0.01"
+                                       class="form-control"
+                                       oninput="calculateAverageSGPA()" id="sgpa8">
+                            </div>
+
+                                <input type="hidden" name="cgpa"
+
+                                       class="form-control"
+                                       id="avgSgpa" >
+
+
+                        </div>
+
+
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-secondary" data-mdb-ripple-init
+                                    data-mdb-dismiss="modal">Close
+                            </button>
+                            <button type="submit" class="btn btn-primary" data-mdb-ripple-init>Save Changes</button>
+                            <div id="loadingSpinner3" style="display: none;">
+                                <!-- HTML for the spinner -->
+                                <div class="spinner-border text-primary mt-1" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--    update sgpa model-->
+
+
+    <div class="vw-100 section">
+
+        <div th:replace="${section}" class="flex-grow-1"></div>
+    </div>
+
+</div>
+</body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const form = document.getElementById('edit-from');
+
+        if (form) {
+
+            form.addEventListener('submit', function (e) {
+
+
+                e.preventDefault(); // Prevent the default form submission
+
+                const formData = new FormData(this);
+
+
+                // Get the modal element
+                const modalElement = document.getElementById('result-link');
+
+                if (modalElement) {
+
+                    document.getElementById('loadingSpinner2').style.display = 'inline';
+
+                    // Use requestAnimationFrame to wait until the modal is closed
+                    requestAnimationFrame(() => {
+                        // After the modal is closed, start the asynchronous operation
+                        fetch('/admin/add-link', {
+                            method: 'POST',
+                            body: formData
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error(`HTTP error! status: ${response.status}`);
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                console.log('Response from server:', data);
+
+                                if (data.success) {
+                                    console.log('Link Added');
+                                    // Store the success message in sessionStorage
+                                    sessionStorage.setItem('alertMessage', 'Link Added Successfully');
+                                    sessionStorage.setItem('alertType', 'alert-info');
+
+                                    // Hide the spinner after the response is received
+                                    document.getElementById('loadingSpinner2').style.display = 'none';
+
+                                } else {
+                                    console.log(`Failed to update student: ${data.message}`);
+                                    // Store the error message in sessionStorage
+                                    sessionStorage.setItem('alertMessage', 'Failed to Add link');
+                                    sessionStorage.setItem('alertType', 'alert-danger');
+
+                                    // Hide the spinner after the response is received
+                                    document.getElementById('loadingSpinner2').style.display = 'none';
+                                }
+
+                                // Reload the page to reflect the update and display the message
+                                location.reload();
+
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                // Store the error message in sessionStorage
+                                sessionStorage.setItem('alertMessage', 'Link is too large !!');
+                                sessionStorage.setItem('alertType', 'alert-danger');
+                                location.reload(); // Reload the page
+                            });
+                    });
+                } else {
+                    console.error('Modal with ID "result-link" not found.');
+                }
+            });
+        } else {
+            console.error('Form with ID "edit-form" not found.');
+        }
+
+
+    });
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+
+        const button = document.getElementById('home-btn');
+
+        if (button) {
+
+            const url = button.getAttribute('data-url');
+
+
+            if (url === '/admin/login') {
+
+                button.style.backgroundColor = '#2a303c';
+                button.style.color = 'white';
+
+            } else {
+
+                button.style.backgroundColor = 'white';
+                button.style.color = 'black';
+
+            }
+
+        }
+
+
+    })
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+
+        const url = document.getElementById('url').getAttribute('data-url');
+
+        if (url) {
+
+            const home = document.getElementById('home');
+            const students = document.getElementById('all-students');
+            const addStudent = document.getElementById('add-student');
+            const addAttendance = document.getElementById('add-attendance');
+            const sgpa = document.getElementById('add-sgpa');
+            const courses = document.getElementById('courses');
+            const backlog = document.getElementById('backlog-students');
+            const result = document.getElementById('upload-result');
+            const logout = document.getElementById('logout');
+
+
+            if (url === '/admin/dashboard') {
+
+                home.style.color = 'darkturquoise';
+
+            }
+
+            if (url === '/admin/all-students') {
+
+                students.style.color = 'darkturquoise';
+
+            }
+
+            if (url === '/admin/add-student') {
+
+                addStudent.style.color = 'darkturquoise';
+
+            }
+
+            if (url === '/admin/add-attendence') {
+
+                addAttendance.style.color = 'darkturquoise';
+
+            }
+
+            if (url === '/admin/add-sgpa') {
+
+                sgpa.style.color = 'darkturquoise';
+
+            }
+
+            if (url === '/admin/cources') {
+
+                courses.style.color = 'darkturquoise';
+
+            }
+
+            if (url === '/admin/backlog-students') {
+
+                backlog.style.color = 'darkturquoise';
+
+            }
+
+            if (url === '/admin/upload-result') {
+
+                result.style.color = 'darkturquoise';
+
+            }
+
+            if (url === '/admin/logout') {
+
+                logout.style.color = 'darkturquoise';
+
+            }
+
+
+        }
+
+
+    })
+
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"
+></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"
+></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"
+></script>
+<!-- MDB -->
+<script
+        type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.umd.min.js"
+></script>
+<!-- MDB -->
+<script
+        type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.umd.min.js"
+></script>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:replace="${script}"></script>
+</body>
+</html>

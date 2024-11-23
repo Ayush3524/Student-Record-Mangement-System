@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns:th="http://www.thymeleaf.org"
+        th:replace="admin/base::layout(~{::section},~{::title},~{::style},~{::script})"
+>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Courses</title>
+    <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+        /* Custom styles for better responsiveness */
+        @media (max-width: 576px) {
+            th, td {
+                font-size: 12px;
+                padding: 5px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            th, td {
+                font-size: 14px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+        }
+
+        .table thead th {
+            color: green;
+            background-color: white;
+            font-size: 18px;
+            font-weight: bold;
+            border-left: 3px solid black;
+            border-right: 3px solid black;
+        }
+
+        .table tbody td {
+            background-color: white;
+            font-size: 16px;
+            font-weight: bold;
+            color: black;
+            border-left: 3px solid black;
+            border-right: 3px solid black;
+        }
+
+        .table-bordered {
+            border: 3px solid black;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+<section>
+    <div class="container mt-2 flex-fill">
+        <div class="container">
+            <h1 class="mb-4 text-center text-black" style="font-size: 50px">Department Courses</h1>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>3rd Semester</th>
+                        <th>4th Semester</th>
+                        <th>5th Semester</th>
+                        <th>6th Semester</th>
+                        <th>7th Semester</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Engineering Mathematics 3</td>
+                        <td>Engineering Mathematics 4</td>
+                        <td>Analog Communication</td>
+                        <td>Digital Communication</td>
+                        <td>Satellite Communication</td>
+                    </tr>
+                    <tr>
+                        <td>Electronic Devices & Circuits</td>
+                        <td>Electromagnetic Field</td>
+                        <td>Microprocessor and Microcontroller</td>
+                        <td>Control System Engineering</td>
+                        <td>Antenna Wave Propagation</td>
+                    </tr>
+                    <tr>
+                        <td>Digital Electronics</td>
+                        <td>Signal Processing</td>
+                        <td>CMOS-VLSI</td>
+                        <td>Data Science</td>
+                        <td>Data Encryption and Decryption</td>
+                    </tr>
+                    <tr>
+                        <td>Network Theory</td>
+                        <td>Python Programming</td>
+                        <td>Digital Image Processing</td>
+                        <td>Software Workshop Lab</td>
+                        <td>Robotics</td>
+                    </tr>
+                    <tr>
+                        <td>OOPS & DS</td>
+                        <td>Soft Skills-1</td>
+                        <td>Soft Skills-2</td>
+                        <td>Soft Skills-3</td>
+                        <td>Machine Learning</td>
+                    </tr>
+                    <tr>
+                        <td>OOPS & DS Lab</td>
+                        <td>Signal Processing Lab</td>
+                        <td>Economics and Finance</td>
+                        <td>Digital System Design</td>
+                        <td>MEMS</td>
+                    </tr>
+                    <tr>
+                        <td>Digital Electronics Lab</td>
+                        <td>Python Programming Lab</td>
+                        <td>Java Programming Lab</td>
+                        <td>Digital System Design</td>
+                        <td>W.com</td>
+                    </tr>
+                    <tr>
+                        <td>Electronics Devices & Circuit Lab</td>
+                        <td>Essence of Indian Traditional Knowledge</td>
+                        <td>Analog Communication Lab</td>
+                        <td>Computer Communication Network</td>
+                        <td>Mega Project</td>
+                    </tr>
+                    <tr>
+                        <td>Practice School-1</td>
+                        <td>Open Elective</td>
+                        <td>Practice School-2</td>
+                        <td>Computer Communication Network Lab</td>
+                        <td>Course45</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>VLSI</td>
+                        <td>Open Elective</td>
+                        <td>Open Elective</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>Open Elective</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<script></script>
+</body>
+</html>

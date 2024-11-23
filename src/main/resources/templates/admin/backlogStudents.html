@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns:th="http://www.thymeleaf.org"
+        th:replace="admin/base::layout(~{::section},~{::title},~{::style},~{::script})"
+>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Backlog Students</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        @media (max-width: 768px) {
+            .table-responsive {
+                overflow-x: auto;
+            }
+        }
+
+        .table1{
+            border: 1px solid black;
+        }
+
+        .table1 th {
+            background-color: cadetblue;
+            color: white;
+            border: 1px solid black;
+        }
+
+        .table1 td{
+            border: 1px solid black;
+        }
+
+        .table1 tbody td{
+            background-color: white;
+            color: black;
+        }
+
+        .msg{
+            padding-top: 20px;
+            left: 50%;
+            top: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+        }
+    </style>
+</head>
+<body>
+<section>
+
+    <div class="text-center mb-4 mt-3">
+        <button class="btn btn-secondary m-1" onclick="fetchAndDisplayStudents('all')">All</button>
+        <button class="btn btn-secondary m-1" onclick="fetchAndDisplayStudents('2021-2025')">2021-2025</button>
+        <button class="btn btn-secondary m-1" onclick="fetchAndDisplayStudents('2022-2026')">2022-2026</button>
+        <button class="btn btn-secondary m-1" onclick="fetchAndDisplayStudents('2023-2027')">2023-2027</button>
+        <button class="btn btn-secondary m-1" onclick="fetchAndDisplayStudents('2024-2028')">2024-2028</button>
+        <button class="btn btn-secondary m-1" onclick="fetchAndDisplayStudents('2025-2029')">2025-2029</button>
+    </div>
+
+    <!-- Dropdown for filtering by Year of Study -->
+    <div class="container mb-3">
+        <label for="yearFilter" class="text-black" style="font-size: 20px">Filter by Year:</label>
+        <select id="yearFilter" class="" onchange="yearFilter()">
+            <option value="">All</option>
+            <option value="2nd">2nd Year</option>
+            <option value="3rd">3rd Year</option>
+            <option value="4th">4th Year</option>
+        </select>
+    </div>
+
+    <div class="container-fluid">
+        <div class="container mt-5">
+            <h2 class="m-4 text-center text-black" style="font-size: 40px">Students With Current Backlog</h2>
+            <div class="table-responsive" style="max-height: 610px; overflow-y: auto;">
+                <table class="table table1">
+                    <thead class="thead-dark" style="position: sticky; top: 0; z-index: 0;">
+                    <tr>
+                        <th class="text-center">Batch</th>
+                        <th class="text-center">Year</th>
+                        <th class="text-center">ID</th>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Phone</th>
+                        <th class="text-center">Email</th>
+                        <th class="text-center">Backlog</th>
+                        <th class="text-center">Backlog Subjects</th>
+                        <th class="text-center">Current Backlog</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="s:${backlogStudents}" th:unless="${backlogStudents.isEmpty()}" th:data-batch="${s.batch}" th:data-year="${s.year}" style="cursor: pointer;"
+                        th:data-url="@{'/admin/student/details/'+${s.rollNo}}"
+                        onclick="window.location.href=this.getAttribute('data-url')">
+                        <td class="text-center" th:text="${s.batch}" style="font-weight: bold"></td>
+                        <td class="text-center" th:text="${s.year}">1</td>
+                        <td class="text-center" th:text="${s.rollNo}">1</td>
+                        <td class="text-center" th:text="${s.name}">himanshu</td>
+                        <td class="text-center" th:text="${s.phone}">7709638870</td>
+                        <td class="text-center" th:text="${s.email}">h@123</td>
+                        <td class="text-center" th:text="${s.backlog ? 'yes' : 'no'}"></td>
+                        <td class="text-center" th:text="${s.backSub}">sub</td>
+                        <td class="text-center" th:text="${s.currentBacklog}">current backlog</td>
+                    </tr>
+                    <tr th:if="${backlogStudents.isEmpty()}">
+                        <td colspan="9">
+                            <div class="text-center msg">
+
+                                <h4 style="color: darkslategray">No Student Records...</h4>
+
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    // Function to filter and display students
+    function fetchAndDisplayStudents(batch) {
+        const rows = document.querySelectorAll('tbody tr');  // Select all table rows
+
+        rows.forEach(row => {
+            const studentYear = row.getAttribute('data-batch');  // Get the student's year from the data-year attribute
+
+            if (batch === 'all' || studentYear === batch) {
+                row.style.display = '';  // Show row if year matches or if 'all' is selected
+            } else {
+                row.style.display = 'none';  // Hide row if year doesn't match
+            }
+        });
+    }
+
+    function yearFilter(){
+
+        const rows = document.querySelectorAll('tbody tr');
+
+        const year = document.getElementById('yearFilter').value;
+
+        // console.log(year);
+
+        rows.forEach(row => {
+
+            const studentYear = row.getAttribute('data-year');  // Get the student's year from the data-year attribute
+
+            // console.log(studentYear);
+
+            if (year === '' || studentYear === year) {
+                row.style.display = '';  // Show row if year matches or if 'all' is selected
+            } else {
+                row.style.display = 'none';  // Hide row if year doesn't match
+            }
+        });
+
+    }
+</script>
+</body>
+</html>
